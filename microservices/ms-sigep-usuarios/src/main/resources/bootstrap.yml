@@ -1,0 +1,45 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: ${PORT:0}
+spring:
+  application:
+    name: ms-sigep-usuarios
+  datasource:
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sigep_db?useSSL=false&serverTimezone=America/Mexico_City&useLegacyDatetimeCode=false
+    username: sigep
+    password: 0i.wXr-8Lj#1gv@
+  jpa:
+    hibernate.ddl-auto: none
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      use-new-id-generator-mappings: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        c3p0.max_size: 15
+        c3p0.min_size: 6
+        c3p0.timeout: 2000
+        c3p0.max_statements_per_connection: 10
+        c3p0.idle_test_period: 3000
+        c3p0.acquire_increment: 5
+        c3p0.validate: false
+        c3p0.numHelperThreads: 15
+  

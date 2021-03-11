@@ -1,0 +1,49 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: ms-sigep-gateway
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+zuul:
+  routes:
+    preregistro:
+      service-id: ms-sigep-preregistro
+      path: /api/preregistro/**
+    catalogos:
+      service-id: ms-sigep-catalogos
+      path: /api/catalogos/**
+    usuarios:
+      service-id: ms-sigep-usuarios
+      path: /api/usuarios/**
+    security:
+      service-id: ms-sigep-autorizador
+      path: /api/security/**
+      sensitive-headers: Cookie,Set-Cookie
+    test:
+      path: /redirect/**
+      url: http://google.com
+ribbon:
+  ConnectionTimeout: 9000
+  ReadTimeout: 8000
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 30000
+        requestVolumeThreshold: 5
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000

@@ -1,0 +1,121 @@
+
+  #cloud:
+   # config:
+    #  name:  ${spring.application.name}
+     # uri: http://localhost:8888
+      #fail-fast: true
+      #username: alfonso
+      #password: 12345678
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: ${PORT:0}
+spring:
+  application:
+    name: ms-sigep-preregistro
+  datasource:
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sigep_db?useSSL=false&serverTimezone=America/Mexico_City&useLegacyDatetimeCode=false
+    username: sigep
+    password: 0i.wXr-8Lj#1gv@
+  jpa:
+    hibernate.ddl-auto: none
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      use-new-id-generator-mappings: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        c3p0.max_size: 15
+        c3p0.min_size: 6
+        c3p0.timeout: 2000
+        c3p0.max_statements_per_connection: 10
+        c3p0.idle_test_period: 3000
+        c3p0.acquire_increment: 5
+        c3p0.validate: false
+        c3p0.numHelperThreads: 15
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: alfonso.chavez.a@gmail.com
+    password: wdlniibmjqpxocml
+    properties:
+      mail.smtp:
+        auth: true
+        connectiontimeout: 5000
+        timeout: 5000
+        writetimeout: 5000
+        starttls.enable: true
+  thymeleaf:
+    mode: "HTML"
+    suffix: ".html"
+    prefix: "classpath:/templates/"
+    
+constants:
+  swagger:
+    config:
+      basePackage: "com.ipn.sigep.preregistro.controller"
+      reponseMessages: true
+      regex: "/.*"
+    info:
+      tittle: "ipn-ms-sigep"
+      description: "Esta API contiene las diferentes funcionalidades para poder administrar el sistema de gestion escolar de posgrado"
+      version: "1.0.0"
+    contact:
+      name: "alfonso chávez"
+      url: ""
+      mail: "alfonso.chavez.a@gmail.com"
+    controller:
+      preregistro:
+        generalPath: "ipn/sgep/api/v1/preregistroAlumnos"
+        guardar:
+          path: "/guarda"
+          description: "funcionalidad para guardar el preregistro del alumno"
+        actualizar:
+          pathByIdPreregistro: "/actualiza"
+          descripcionByIdPreregistro: "actualiza la informacion de un alumno preregistrado"
+        consultar:
+          path: "/consulta"
+          description: "devuelve el listado de todos los alumnos preregistrados"
+          pathByIdPreregistro: "/consultaById/{idPreregistro}"
+          descriptionByIdPreregistro: "consulta el preregistro de un alumno mendiante el idPreregistro"
+          pathByFolio: "/consultaById/{folio}"
+          descripcionByFolio: "consulta el pregistro mendiante el folio"        
+          pathByCurp: "/consultaByCurp/{curp}"
+          descripcionByCurp: "borra el preregistro de un alumno mendiante el Curp"
+        elimina:
+          pathByIdPreregistro: "/eliminaById/{idPreregistro}"
+          descripcionByIdPreregistro: "borra el preregistro de un alumno mendiante el idPreregistro"
+          pathByFolio: "/eliminaByFolio/{folio}"
+          descripcionByFolio: "borra el preregistro de un alumno mendiante el folio"
+          pathByCurp: "/eliminaByCurp/{curp}"
+          descripcionByCurp: "borra el preregistro de un alumno mendiante el Curp"
+      programasAcademicos:
+        generalPath: "ipn/sgep/api/v1/programaAcademico/{idUnidadAcademica}"
+        consultar:
+          pathByIdUnidadAcademica: "/consulta"
+          descriptionByIdUnidadAcademica: "consulta todos los programasAcademicos por unidadAcademica"
+      pathVariables:
+        idUnidadAcademica: "idUnidadAcademica" 
+        idPreregistro: "idPreregistro"  
+        curp: "curp"
+        folio: "folio"
+      responseMsg: 
+        successfulMsg: "la operacion se ha completado correctamente"
+
